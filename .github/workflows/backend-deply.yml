@@ -17,8 +17,6 @@ jobs:
       tag_name: ${{ steps.create_tag.outputs.new_tag }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: backend
       - name: Create Tag
         id: create_tag
         uses: mathieudutour/github-tag-action@v6.2
@@ -47,9 +45,8 @@ jobs:
       image_name: ${{ steps.export_image.outputs.image_name }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          path: backend
       - name: application-secret 추가
+        working-directory: backend
         env:
           ACTIONS_STEP_DEBUG: true
           APPLICATION_SECRET: ${{ secrets.APPLICATION_SECRET }}
@@ -73,7 +70,7 @@ jobs:
       - name: 빌드 앤 푸시
         uses: docker/build-push-action@v3
         with:
-          context: .
+          context: ./backend
           push: true
           tags: |
             ghcr.io/${{ steps.export_owner.outputs.owner_lc }}/${{ steps.export_image.outputs.image_name }}:${{ needs.makeTagAndRelease.outputs.tag_name }},
