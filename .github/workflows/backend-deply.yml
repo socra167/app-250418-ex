@@ -3,7 +3,7 @@ name: Deploy Backend
 on:
   push:
     paths:
-      - "backend/.github/workflows/**"
+      - ".github/workflows/**"
       - "backend/src/**"
       - "backend/build.gradle.kts"
       - "backend/Dockerfile"
