@@ -1,4 +1,4 @@
-package com.example.upload.global.init;
+package com.example.upload.global.init
 
 import org.springframework.boot.ApplicationRunner
 import org.springframework.context.annotation.Bean
@@ -22,17 +22,17 @@ class DevInitData {
             genApiJsonFile("http://localhost:8080/v3/api-docs/apiV1", "apiV1.json")
             runCmd(
                 listOf(
-                    "cmd.exe",
-                    "/c",
+                    "/bin/sh",
+                    "-c",
                     "npx --package typescript --package openapi-typescript --package punycode openapi-typescript apiV1.json -o ../frontend/src/lib/backend/apiV1/schema.d.ts"
                 )
-            );
-        };
+            )
+        }
     }
 
     fun runCmd(command: List<String>) {
         val processBuilder = ProcessBuilder(command)
-        processBuilder.redirectErrorStream(true) // 표준 에러를 표준 출력과 합침
+        processBuilder.redirectErrorStream(true)
 
         val process = processBuilder.start()
 
@@ -47,7 +47,7 @@ class DevInitData {
     }
 
     fun genApiJsonFile(url: String, filename: String) {
-        val filePath = Path.of(filename) // 저장할 파일명
+        val filePath = Path.of(filename)
 
         val client = HttpClient.newHttpClient()
 
@@ -65,7 +65,7 @@ class DevInitData {
                 StandardOpenOption.CREATE,
                 StandardOpenOption.TRUNCATE_EXISTING
             )
-            println("JSON 데이터가 ${filePath.toAbsolutePath()}에 저장되었습니다.");
+            println("JSON 데이터가 ${filePath.toAbsolutePath()}에 저장되었습니다.")
         } else {
             println("오류: HTTP 상태 코드 ${response.statusCode()}")
         }
